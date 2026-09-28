@@ -352,3 +352,10 @@ fun numeroReis(llista : List<String>) {
     }
 }
 
+fun reunioVeins()
+{
+    val scanner = Scanner(System.`in`)
+    var numeroDePisos = scanner.nextLine().toInt()
+    var numeroPortesDePis = scanner.nextLine().toInt()
+
+}

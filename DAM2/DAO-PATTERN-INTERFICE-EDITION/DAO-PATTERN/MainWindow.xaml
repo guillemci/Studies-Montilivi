@@ -5,10 +5,57 @@
         Height="650"
         Width="950"
         MinHeight="550"
-        MinWidth="800">
+        MinWidth="800"
+        Loaded="Window_Loaded">
 
     <Grid Margin="12">
-        <TabControl>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Connexió -->
+        <Grid Grid.Row="0" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" Text="DAOService:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+
+            <ComboBox x:Name="cmbDAO"
+                      Grid.Column="1"
+                      Height="24"
+                      SelectedIndex="0">
+                <ComboBoxItem Content="CSV" Tag="CSV"/>
+                <ComboBoxItem Content="BBDD" Tag="BBDD"/>
+            </ComboBox>
+
+            <TextBlock Grid.Column="2"
+                       Text="Connexió / fitxer:"
+                       Margin="15,0,6,0"
+                       VerticalAlignment="Center"/>
+
+            <TextBox x:Name="txtConnexio"
+                     Grid.Column="3"
+                     Height="24"
+                     VerticalContentAlignment="Center"/>
+
+            <StackPanel Grid.Column="4" Orientation="Horizontal" Margin="8,0,0,0">
+                <Button Content="Tria fitxer..."
+                        Width="95"
+                        Margin="0,0,6,0"
+                        Click="BtnConnexio_Click"/>
+                <Button Content="Connectar"
+                        Width="85"
+                        Click="BtnConnectar_Click"/>
+            </StackPanel>
+        </Grid>
+
+        <TabControl x:Name="tabsExercicis" Grid.Row="1" IsEnabled="False">
 
             <!-- EXERCICI 1 -->
             <TabItem Header="SelectByGenre">
@@ -27,43 +74,26 @@
                                FontWeight="Bold"
                                Margin="0,0,0,12"/>
 
-                    <StackPanel Grid.Row="1" Margin="0,0,0,8">
-                        <TextBlock Text="Fitxer d'entrada:"/>
-                        <DockPanel Margin="0,5,0,0">
-                            <Button Content="Triar..."
-                                    Width="90"
-                                    DockPanel.Dock="Right"
-                                    Click="BtnInput1_Click"/>
-                            <TextBox x:Name="txtInput1" Margin="0,0,8,0"/>
-                        </DockPanel>
-                    </StackPanel>
+                    <TextBlock Grid.Row="1" Text="Gènere:" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="2" x:Name="txtGenre" Margin="0,5,0,8"/>
 
-                    <StackPanel Grid.Row="2" Margin="0,0,0,8">
-                        <TextBlock Text="Gènere:"/>
-                        <TextBox x:Name="txtGenre" Margin="0,5,0,0"/>
-                    </StackPanel>
-
-                    <StackPanel Grid.Row="3" Margin="0,0,0,8">
-                        <TextBlock Text="Fitxer de sortida:"/>
-                        <DockPanel Margin="0,5,0,0">
-                            <Button Content="Triar..."
-                                    Width="90"
-                                    DockPanel.Dock="Right"
-                                    Click="BtnOutput1_Click"/>
-                            <TextBox x:Name="txtOutput1" Margin="0,0,8,0"/>
-                        </DockPanel>
-                    </StackPanel>
+                    <Grid Grid.Row="3" Margin="0,0,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Fitxer de sortida:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBox Grid.Column="1" x:Name="txtOutput1" Margin="0,0,8,0"/>
+                        <Button Grid.Column="2" Content="Triar..." Width="90" Click="BtnOutput1_Click"/>
+                    </Grid>
 
                     <Grid Grid.Row="4">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <Button Grid.Row="0"
-                                Content="Executar"
-                                Width="100"
-                                HorizontalAlignment="Left"
-                                Click="BtnExercici1_Click"/>
+                        <Button Grid.Row="0" Content="Executar" Width="100" HorizontalAlignment="Left" Click="BtnExercici1_Click"/>
                         <TextBox Grid.Row="1"
                                  x:Name="txtResult1"
                                  Margin="0,10,0,0"
@@ -92,32 +122,15 @@
                                FontWeight="Bold"
                                Margin="0,0,0,12"/>
 
-                    <StackPanel Grid.Row="1" Margin="0,0,0,8">
-                        <TextBlock Text="Fitxer d'entrada:"/>
-                        <DockPanel Margin="0,5,0,0">
-                            <Button Content="Triar..."
-                                    Width="90"
-                                    DockPanel.Dock="Right"
-                                    Click="BtnInput2_Click"/>
-                            <TextBox x:Name="txtInput2" Margin="0,0,8,0"/>
-                        </DockPanel>
-                    </StackPanel>
-
-                    <StackPanel Grid.Row="2" Margin="0,0,0,8">
-                        <TextBlock Text="Índex:"/>
-                        <TextBox x:Name="txtIndex2" Margin="0,5,0,0"/>
-                    </StackPanel>
+                    <TextBlock Grid.Row="1" Text="Índex:" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="2" x:Name="txtIndex2" Margin="0,5,0,8"/>
 
                     <Grid Grid.Row="3">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <Button Grid.Row="0"
-                                Content="Executar"
-                                Width="100"
-                                HorizontalAlignment="Left"
-                                Click="BtnExercici2_Click"/>
+                        <Button Grid.Row="0" Content="Executar" Width="100" HorizontalAlignment="Left" Click="BtnExercici2_Click"/>
                         <TextBox Grid.Row="1"
                                  x:Name="txtResult2"
                                  Margin="0,10,0,0"
@@ -146,32 +159,15 @@
                                FontWeight="Bold"
                                Margin="0,0,0,12"/>
 
-                    <StackPanel Grid.Row="1" Margin="0,0,0,8">
-                        <TextBlock Text="Fitxer d'entrada:"/>
-                        <DockPanel Margin="0,5,0,0">
-                            <Button Content="Triar..."
-                                    Width="90"
-                                    DockPanel.Dock="Right"
-                                    Click="BtnInput3_Click"/>
-                            <TextBox x:Name="txtInput3" Margin="0,0,8,0"/>
-                        </DockPanel>
-                    </StackPanel>
-
-                    <StackPanel Grid.Row="2" Margin="0,0,0,8">
-                        <TextBlock Text="ID:"/>
-                        <TextBox x:Name="txtId3" Margin="0,5,0,0"/>
-                    </StackPanel>
+                    <TextBlock Grid.Row="1" Text="ID:" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="2" x:Name="txtId3" Margin="0,5,0,8"/>
 
                     <Grid Grid.Row="3">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <Button Grid.Row="0"
-                                Content="Executar"
-                                Width="100"
-                                HorizontalAlignment="Left"
-                                Click="BtnExercici3_Click"/>
+                        <Button Grid.Row="0" Content="Executar" Width="100" HorizontalAlignment="Left" Click="BtnExercici3_Click"/>
                         <TextBox Grid.Row="1"
                                  x:Name="txtResult3"
                                  Margin="0,10,0,0"
@@ -201,37 +197,18 @@
                                FontWeight="Bold"
                                Margin="0,0,0,12"/>
 
-                    <StackPanel Grid.Row="1" Margin="0,0,0,8">
-                        <TextBlock Text="Fitxer d'entrada:"/>
-                        <DockPanel Margin="0,5,0,0">
-                            <Button Content="Triar..."
-                                    Width="90"
-                                    DockPanel.Dock="Right"
-                                    Click="BtnInput4_Click"/>
-                            <TextBox x:Name="txtInput4" Margin="0,0,8,0"/>
-                        </DockPanel>
-                    </StackPanel>
+                    <TextBlock Grid.Row="1" Text="Índex inicial:" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="2" x:Name="txtIndex4" Margin="0,5,0,8"/>
 
-                    <StackPanel Grid.Row="2" Margin="0,0,0,8">
-                        <TextBlock Text="Índex inicial:"/>
-                        <TextBox x:Name="txtIndex4" Margin="0,5,0,0"/>
-                    </StackPanel>
+                    <TextBlock Grid.Row="3" Text="Quantitat:" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="4" x:Name="txtLength4" Margin="0,5,0,8"/>
 
-                    <StackPanel Grid.Row="3" Margin="0,0,0,8">
-                        <TextBlock Text="Quantitat:"/>
-                        <TextBox x:Name="txtLength4" Margin="0,5,0,0"/>
-                    </StackPanel>
-
-                    <Grid Grid.Row="4">
+                    <Grid Grid.Row="5">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <Button Grid.Row="0"
-                                Content="Executar"
-                                Width="100"
-                                HorizontalAlignment="Left"
-                                Click="BtnExercici4_Click"/>
+                        <Button Grid.Row="0" Content="Executar" Width="100" HorizontalAlignment="Left" Click="BtnExercici4_Click"/>
                         <TextBox Grid.Row="1"
                                  x:Name="txtResult4"
                                  Margin="0,10,0,0"
@@ -262,49 +239,32 @@
                                FontWeight="Bold"
                                Margin="0,0,0,12"/>
 
-                    <StackPanel Grid.Row="1" Margin="0,0,0,8">
-                        <TextBlock Text="Fitxer d'entrada:"/>
-                        <DockPanel Margin="0,5,0,0">
-                            <Button Content="Triar..."
-                                    Width="90"
-                                    DockPanel.Dock="Right"
-                                    Click="BtnInput5_Click"/>
-                            <TextBox x:Name="txtInput5" Margin="0,0,8,0"/>
-                        </DockPanel>
-                    </StackPanel>
+                    <TextBlock Grid.Row="1" Text="Índex inicial:" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="2" x:Name="txtIndex5" Margin="0,5,0,8"/>
 
-                    <StackPanel Grid.Row="2" Margin="0,0,0,8">
-                        <TextBlock Text="Índex inicial:"/>
-                        <TextBox x:Name="txtIndex5" Margin="0,5,0,0"/>
-                    </StackPanel>
-
-                    <StackPanel Grid.Row="3" Margin="0,0,0,8">
-                        <TextBlock Text="Quantitat:"/>
-                        <TextBox x:Name="txtLength5" Margin="0,5,0,0"/>
-                    </StackPanel>
-
-                    <StackPanel Grid.Row="4" Margin="0,0,0,8">
-                        <TextBlock Text="Fitxer de sortida:"/>
-                        <DockPanel Margin="0,5,0,0">
-                            <Button Content="Triar..."
-                                    Width="90"
-                                    DockPanel.Dock="Right"
-                                    Click="BtnOutput5_Click"/>
-                            <TextBox x:Name="txtOutput5" Margin="0,0,8,0"/>
-                        </DockPanel>
-                    </StackPanel>
+                    <TextBlock Grid.Row="3" Text="Quantitat:" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="4" x:Name="txtLength5" Margin="0,5,0,8"/>
 
                     <Grid Grid.Row="5">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <Button Grid.Row="0"
-                                Content="Executar"
-                                Width="100"
-                                HorizontalAlignment="Left"
-                                Click="BtnExercici5_Click"/>
-                        <TextBox Grid.Row="1"
+
+                        <Grid Grid.Row="0" Margin="0,0,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Fitxer de sortida:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            <TextBox Grid.Column="1" x:Name="txtOutput5" Margin="0,0,8,0"/>
+                            <Button Grid.Column="2" Content="Triar..." Width="90" Click="BtnOutput5_Click"/>
+                        </Grid>
+
+                        <Button Grid.Row="1" Content="Executar" Width="100" HorizontalAlignment="Left" Click="BtnExercici5_Click"/>
+                        <TextBox Grid.Row="2"
                                  x:Name="txtResult5"
                                  Margin="0,10,0,0"
                                  IsReadOnly="True"
@@ -333,49 +293,45 @@
                                FontWeight="Bold"
                                Margin="0,0,0,12"/>
 
-                    <StackPanel Grid.Row="1" Margin="0,0,0,8">
-                        <TextBlock Text="Fitxer d'entrada 1:"/>
-                        <DockPanel Margin="0,5,0,0">
-                            <Button Content="Triar..."
-                                    Width="90"
-                                    DockPanel.Dock="Right"
-                                    Click="BtnInput6a_Click"/>
-                            <TextBox x:Name="txtInput6a" Margin="0,0,8,0"/>
-                        </DockPanel>
-                    </StackPanel>
+                    <Grid Grid.Row="1" Margin="0,0,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Fitxer d'entrada 1:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBox Grid.Column="1" x:Name="txtInput6a" Margin="0,0,8,0"/>
+                        <Button Grid.Column="2" Content="Triar..." Width="90" Click="BtnInput6a_Click"/>
+                    </Grid>
 
-                    <StackPanel Grid.Row="2" Margin="0,0,0,8">
-                        <TextBlock Text="Fitxer d'entrada 2:"/>
-                        <DockPanel Margin="0,5,0,0">
-                            <Button Content="Triar..."
-                                    Width="90"
-                                    DockPanel.Dock="Right"
-                                    Click="BtnInput6b_Click"/>
-                            <TextBox x:Name="txtInput6b" Margin="0,0,8,0"/>
-                        </DockPanel>
-                    </StackPanel>
+                    <Grid Grid.Row="2" Margin="0,0,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Fitxer d'entrada 2:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBox Grid.Column="1" x:Name="txtInput6b" Margin="0,0,8,0"/>
+                        <Button Grid.Column="2" Content="Triar..." Width="90" Click="BtnInput6b_Click"/>
+                    </Grid>
 
-                    <StackPanel Grid.Row="3" Margin="0,0,0,8">
-                        <TextBlock Text="Fitxer de sortida:"/>
-                        <DockPanel Margin="0,5,0,0">
-                            <Button Content="Triar..."
-                                    Width="90"
-                                    DockPanel.Dock="Right"
-                                    Click="BtnOutput6_Click"/>
-                            <TextBox x:Name="txtOutput6" Margin="0,0,8,0"/>
-                        </DockPanel>
-                    </StackPanel>
+                    <Grid Grid.Row="3" Margin="0,0,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Fitxer de sortida:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBox Grid.Column="1" x:Name="txtOutput6" Margin="0,0,8,0"/>
+                        <Button Grid.Column="2" Content="Triar..." Width="90" Click="BtnOutput6_Click"/>
+                    </Grid>
 
                     <Grid Grid.Row="4">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <Button Grid.Row="0"
-                                Content="Executar"
-                                Width="100"
-                                HorizontalAlignment="Left"
-                                Click="BtnExercici6_Click"/>
+                        <Button Grid.Row="0" Content="Executar" Width="100" HorizontalAlignment="Left" Click="BtnExercici6_Click"/>
                         <TextBox Grid.Row="1"
                                  x:Name="txtResult6"
                                  Margin="0,10,0,0"

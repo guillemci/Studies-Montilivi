@@ -6,10 +6,10 @@ using System.Windows;
 
 namespace DAO_PATTERN
 {
-    //ajuda amb IA
+    //menu fet amb certa ajuda de IA tinc WPF molt descuidat
     public partial class MainWindow : Window
     {
-        DAOCSV dao = new DAOCSV();
+        IDAO dao = IDAOFactory.GetDAOService(Enums.EnumDTOImplementacio.CSV, "");
 
         public MainWindow()
         {

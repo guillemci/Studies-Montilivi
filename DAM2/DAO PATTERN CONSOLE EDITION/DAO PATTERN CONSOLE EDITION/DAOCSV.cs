@@ -1,10 +1,9 @@
-﻿using DAO_PATTERN.Model;
+﻿using DAO_PATTERN_CONSOLE_EDITION.Model;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
 
-namespace DAO_PATTERN.DAO
+namespace DAO_PATTERN_CONSOLE_EDITION
 {
     public class DAOCSV : IDAO
     {
@@ -35,7 +34,6 @@ namespace DAO_PATTERN.DAO
             using (this.sr1 = new StreamReader(filename))
             using (this.sw = new StreamWriter(outputFile))
             {
-                sw.WriteLine("index;id;title;genres");
                 sr1.ReadLine();
                 string? linea = sr1.ReadLine();
 
@@ -44,9 +42,7 @@ namespace DAO_PATTERN.DAO
                     RawTitle peli = new RawTitle(linea);
                     if (peli._Generes.MeuContains(genre))
                     {
-                        sw.WriteLine(
-                            $"{peli._Index};{peli._Id};{peli._Title};{formatArray(peli._Generes)}"
-                        );
+                        sw.WriteLine(linea);
                         contador++;
                     }
                     linea = sr1.ReadLine();
@@ -54,20 +50,6 @@ namespace DAO_PATTERN.DAO
             }
 
             return contador;
-        }
-
-        private string formatArray(List<string> array)
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("[");
-            for (int i = 0; i < array.Count; i++)
-            {
-                sb.Append($"'{array[i]}'");
-                if (i < array.Count - 1)
-                    sb.Append(", ");
-            }
-            sb.Append("]");
-            return sb.ToString();
         }
 
         public RawTitle? SelectByIndex(int index)
@@ -257,7 +239,6 @@ namespace DAO_PATTERN.DAO
                 }
                 return count;
             }
-
         }
     }
 }

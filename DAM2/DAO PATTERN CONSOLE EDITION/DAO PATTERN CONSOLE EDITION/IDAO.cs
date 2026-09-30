@@ -1,13 +1,12 @@
-﻿using DAO_PATTERN.Model;
+﻿using DAO_PATTERN_CONSOLE_EDITION.Model;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DAO_PATTERN.DAO
+namespace DAO_PATTERN_CONSOLE_EDITION
 {
     public interface IDAO
     {
-        public string Filename { set; }
         public int SelectByGenre(string genre, string outputFile);
         public RawTitle? SelectByIndex(int index);
         public RawTitle? SelectById(string id);

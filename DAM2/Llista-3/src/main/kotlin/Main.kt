@@ -425,6 +425,7 @@ fun numeroReis(llista : List<String>) {
     }
 }
 
+<<<<<<< HEAD
 /**
  * 16. Sempre que tenim reunió de veïns, tenim el mateix problema. No podem començar fins que hi ha representades
  * la meitat de les vivendes del bloc de pisos.
@@ -468,4 +469,12 @@ fun reunioVeins()
         println("la reunio no pot començar [${parelles.size}/${pisos * portes}]")
 
     println(pisos)
+=======
+fun reunioVeins()
+{
+    val scanner = Scanner(System.`in`)
+    var numeroDePisos = scanner.nextLine().toInt()
+    var numeroPortesDePis = scanner.nextLine().toInt()
+
+>>>>>>> 54cb2dd08fec01f6ad80fd54c30966ba1ad3bfdc
 }

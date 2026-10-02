@@ -1,10 +1,11 @@
-﻿using System;
+﻿using DAO_PATTERN_CONSOLE_EDITION.Enums;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace DAO_PATTERN.Model
+namespace DAO_PATTERN_CONSOLE_EDITION.Model
 {
     public class RawTitle : IComparable<RawTitle>
     {
@@ -21,7 +22,7 @@ namespace DAO_PATTERN.Model
 
         public RawTitle(string registre)
         {
-            string[] camps = Regex.Split(registre, @",(?=(?:[^""]*""[^""]*"")*[^""]*$)");
+            string[] camps = Regex.Split(registre,@",(?=(?:[^""]*""[^""]*"")*[^""]*$)");
             this._Index = Convert.ToInt32(camps[0]);
             this._Id = camps[1];
             this._Title = camps[2];
@@ -29,11 +30,11 @@ namespace DAO_PATTERN.Model
             this._Release_year = Convert.ToInt32(camps[4]);
             //this._Release_year = new DateTime(Convert.ToInt32(camps[4]));
             this._Generes = camps[7]
-                .Replace("\'", "")
-                .Replace("\"", "")
-                .Replace("]", "")
-                .Replace("[", "")
-                .Replace(" ", "")
+                .Replace("\'","")
+                .Replace("\"","")
+                .Replace("]","")
+                .Replace("[","")
+                .Replace(" ","")
                 .Split(',')
                 .ToList();
             string seasons = camps[9];
@@ -47,9 +48,6 @@ namespace DAO_PATTERN.Model
             this._Imdb_Votes = Convert.ToDouble(votes, CultureInfo.InvariantCulture);
         }
 
-        //faig el tostring aixi, per evitar fer 2 constructors i liar molt la logica,
-        //perque pugui llegir tant fitxers fets per mi, com el 
-        //input original
         public override string ToString()
         {
             StringBuilder sbGeneres = new StringBuilder();
@@ -67,21 +65,7 @@ namespace DAO_PATTERN.Model
             return $"{this._Index},{this._Id},{this._Title},{this._Type},{_Release_year}, , ,{sbGeneres}, ,{this._Seasons.ToString("0.0", CultureInfo.InvariantCulture)}, ,{this._ImdbScore.ToString("0.0", CultureInfo.InvariantCulture)},{this._Imdb_Votes.ToString("0.0", CultureInfo.InvariantCulture)}";
         }
 
-        //sortida demanada per el exercici 1
-        public string ToStringAlternatiu()
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("[");
-            for (int i = 0; i < this._Generes.Count; i++)
-            {
-                sb.Append($"'{this._Generes[i]}'");
-                if (i < this._Generes.Count - 1)
-                    sb.Append(", ");
-            }
-            sb.Append("]");
 
-            return $"{this._Index};{this._Id};{this._Title};{sb}";
-        }
         public int CompareTo(RawTitle other)
         {
             int numero;

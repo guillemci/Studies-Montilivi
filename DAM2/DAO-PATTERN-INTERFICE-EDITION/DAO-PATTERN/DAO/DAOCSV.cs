@@ -1,14 +1,18 @@
 ﻿using DAO_PATTERN.Model;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.ConstrainedExecution;
+using System.Runtime.Intrinsics.X86;
 using System.Text;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DAO_PATTERN.DAO
 {
     public class DAOCSV : IDAO
     {
-        private string filename = null;
+        private string connexio = null;
         private StreamReader sr1 = null;
         private StreamReader sr2 = null;
         private StreamWriter sw = null;
@@ -17,22 +21,24 @@ namespace DAO_PATTERN.DAO
             set
             {
                 if (File.Exists(value))
-                    filename = value;
+                    connexio = value;
                 else
                     throw new Exception("filename inexistent");
             }
         }
 
+
         public int SelectByGenre(string genre, string outputFile)
         {
-            if (filename == null)
+            //en cas de que el DAO no tingui cap connexio (en aquest cas un adreçament a CSV, petara)
+            if (connexio == null)
                 throw new ArgumentNullException("filename a de fer referencia a un ftxer");
 
             int contador = 0;
 
             File.Create(outputFile).Close();
 
-            using (this.sr1 = new StreamReader(filename))
+            using (this.sr1 = new StreamReader(connexio))
             using (this.sw = new StreamWriter(outputFile))
             {
                 sw.WriteLine("index;id;title;genres");
@@ -45,7 +51,7 @@ namespace DAO_PATTERN.DAO
                     if (peli._Generes.MeuContains(genre))
                     {
                         sw.WriteLine(
-                            $"{peli._Index};{peli._Id};{peli._Title};{formatArray(peli._Generes)}"
+                            peli.ToStringAlternatiu()
                         );
                         contador++;
                     }
@@ -56,27 +62,13 @@ namespace DAO_PATTERN.DAO
             return contador;
         }
 
-        private string formatArray(List<string> array)
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("[");
-            for (int i = 0; i < array.Count; i++)
-            {
-                sb.Append($"'{array[i]}'");
-                if (i < array.Count - 1)
-                    sb.Append(", ");
-            }
-            sb.Append("]");
-            return sb.ToString();
-        }
-
         public RawTitle? SelectByIndex(int index)
         {
-            if (filename == null)
+            if (connexio == null)
                 throw new ArgumentNullException("filename a de fer referencia a un ftxer");
 
             RawTitle? peli = null;
-            using (this.sr1 = new StreamReader(filename))
+            using (this.sr1 = new StreamReader(connexio))
             {
                 sr1.ReadLine();
                 string? linea = sr1.ReadLine();
@@ -103,11 +95,11 @@ namespace DAO_PATTERN.DAO
 
         public RawTitle? SelectById(string id)
         {
-            if (filename == null)
+            if (connexio == null)
                 throw new ArgumentNullException("filename a de fer referencia a un ftxer");
 
             RawTitle? peli = null;
-            using (this.sr1 = new StreamReader(filename))
+            using (this.sr1 = new StreamReader(connexio))
             {
                 sr1.ReadLine();
                 string? linea = sr1.ReadLine();
@@ -131,7 +123,7 @@ namespace DAO_PATTERN.DAO
         public RawTitle[] ReadTitles(int index, int length)
         {
 
-            if (filename == null)
+            if (connexio == null)
                 throw new ArgumentNullException("filename a de fer referencia a un ftxer");
 
             if (length < 1)
@@ -143,7 +135,7 @@ namespace DAO_PATTERN.DAO
             bool finalLength = false;
             int indexArray = 0;
 
-            using (this.sr1 = new StreamReader(filename))
+            using (this.sr1 = new StreamReader(connexio))
             {
                 sr1.ReadLine();
                 string? linea = sr1.ReadLine();

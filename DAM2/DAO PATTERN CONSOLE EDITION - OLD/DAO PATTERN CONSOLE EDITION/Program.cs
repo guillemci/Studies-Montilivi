@@ -10,7 +10,7 @@ namespace DAO_PATTERN_CONSOLE_EDITION
             string connexio = "input.csv";
             IDAO dao = IDAOFactory.GetDAOService(Enums.EnumDTOImplementacio.CSV, connexio);
 
-            RawTitle[] array = dao.ReadTitles(0, 10);
+            RawTitle[] array = dao.ReadTitles(1, 10);
             RawTitle[] array2 = dao.ReadTitles(10, 10);
 
             dao.PreMerge(array, "outputEpic");
@@ -20,6 +20,8 @@ namespace DAO_PATTERN_CONSOLE_EDITION
 
             foreach (RawTitle p in array)
                 Console.WriteLine($"{p._Id}:{p._Title}");
+
+            //Console.WriteLine(dao.SelectByIndex(0)?._Title);
         }
     }
 }

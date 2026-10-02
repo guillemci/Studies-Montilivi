@@ -40,12 +40,7 @@ namespace DAO_PATTERN
         {
             try
             {
-                //ComboBoxItem item = (ComboBoxItem)cmbDAO.SelectedItem;
-                if (cmbDAO.SelectedItem is not ComboBoxItem item)
-                {
-                    MessageBox.Show("Selecciona un DAOService.");
-                    return;
-                }
+                ComboBoxItem item = (ComboBoxItem)cmbDAO.SelectedItem;
 
                 if (string.IsNullOrWhiteSpace(txtConnexio.Text))
                 {
@@ -53,9 +48,13 @@ namespace DAO_PATTERN
                     return;
                 }
 
-                EnumDTOImplementacio tipus = Enum.Parse<EnumDTOImplementacio>(item.Tag.ToString());
+                EnumDTOImplementacio tipus =
+                    Enum.Parse<EnumDTOImplementacio>(item.Tag.ToString());
+
                 dao = IDAOFactory.GetDAOService(tipus, txtConnexio.Text);
+
                 tabsExercicis.IsEnabled = true;
+
                 MessageBox.Show("Connexió preparada.");
             }
             catch (Exception ex)
@@ -66,26 +65,32 @@ namespace DAO_PATTERN
             }
         }
 
-        private void BtnInput6a_Click(object sender, RoutedEventArgs e) => SelectInput(txtInput6a);
-        private void BtnInput6b_Click(object sender, RoutedEventArgs e) => SelectInput(txtInput6b);
+        private void BtnInput6a_Click(object sender, RoutedEventArgs e)
+        {
+            SelectInput(txtInput6a);
+        }
+
+        private void BtnInput6b_Click(object sender, RoutedEventArgs e)
+        {
+            SelectInput(txtInput6b);
+        }
 
         private void BtnOutput1_Click(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog f = new SaveFileDialog
-            {
-                Filter = "Fitxers CSV (*.csv)|*.csv|Tots els fitxers (*.*)|*.*",
-                DefaultExt = ".csv",
-                AddExtension = true
-            };
-
-            if (f.ShowDialog() == true)
-                txtOutput1.Text = f.FileName;
+            SelectOutput(txtOutput1);
         }
 
-        private void BtnOutput5_Click(object sender, RoutedEventArgs e) => SelectOutput(txtOutput5);
-        private void BtnOutput6_Click(object sender, RoutedEventArgs e) => SelectOutput(txtOutput6);
+        private void BtnOutput5_Click(object sender, RoutedEventArgs e)
+        {
+            SelectOutput(txtOutput5);
+        }
 
-        private static void SelectInput(System.Windows.Controls.TextBox target)
+        private void BtnOutput6_Click(object sender, RoutedEventArgs e)
+        {
+            SelectOutput(txtOutput6);
+        }
+
+        private static void SelectInput(TextBox target)
         {
             OpenFileDialog f = new OpenFileDialog
             {
@@ -96,7 +101,7 @@ namespace DAO_PATTERN
                 target.Text = f.FileName;
         }
 
-        private static void SelectOutput(System.Windows.Controls.TextBox target)
+        private static void SelectOutput(TextBox target)
         {
             SaveFileDialog f = new SaveFileDialog
             {
@@ -121,20 +126,19 @@ namespace DAO_PATTERN
 
         private static void ShowError(Exception ex)
         {
-            MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show(
+                ex.Message,
+                "Error",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
         }
 
         private void BtnExercici1_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                if (dao == null)
-                {
-                    MessageBox.Show("Primer has de connectar un DAOService.");
-                    return;
-                }
-
-                if (string.IsNullOrWhiteSpace(txtGenre.Text) || string.IsNullOrWhiteSpace(txtOutput1.Text))
+                if (string.IsNullOrWhiteSpace(txtGenre.Text) ||
+                    string.IsNullOrWhiteSpace(txtOutput1.Text))
                 {
                     MessageBox.Show("Especifica el gènere i el fitxer de sortida.");
                     return;
@@ -142,8 +146,7 @@ namespace DAO_PATTERN
 
                 int resultat = dao.SelectByGenre(
                     txtGenre.Text,
-                    txtOutput1.Text
-                );
+                    txtOutput1.Text);
 
                 txtResult1.Text =
                     "S'han trobat: " + resultat + "\n\n" +
@@ -159,14 +162,11 @@ namespace DAO_PATTERN
         {
             try
             {
-                if (dao == null)
-                {
-                    MessageBox.Show("Primer has de connectar un DAOService.");
-                    return;
-                }
                 int index = int.Parse(txtIndex2.Text);
+
                 var resultat = dao.SelectByIndex(index);
-                txtResult2.Text = resultat is null
+
+                txtResult2.Text = resultat == null
                     ? "No s'ha trobat cap títol."
                     : resultat.ToString();
             }
@@ -180,13 +180,9 @@ namespace DAO_PATTERN
         {
             try
             {
-                if (dao == null)
-                {
-                    MessageBox.Show("Primer has de connectar un DAOService.");
-                    return;
-                }
                 var resultat = dao.SelectById(txtId3.Text);
-                txtResult3.Text = resultat is null
+
+                txtResult3.Text = resultat == null
                     ? "No s'ha trobat cap títol."
                     : resultat.ToString();
             }
@@ -200,18 +196,16 @@ namespace DAO_PATTERN
         {
             try
             {
-                if (dao == null)
-                {
-                    MessageBox.Show("Primer has de connectar un DAOService.");
-                    return;
-                }
                 int index = int.Parse(txtIndex4.Text);
                 int length = int.Parse(txtLength4.Text);
+
                 var resultat = dao.ReadTitles(index, length);
 
                 StringBuilder sb = new StringBuilder();
+
                 sb.AppendLine($"Títols retornats: {resultat.Length}");
                 sb.AppendLine();
+
                 foreach (var title in resultat)
                     sb.AppendLine(title.ToString());
 
@@ -227,22 +221,18 @@ namespace DAO_PATTERN
         {
             try
             {
-                if (dao == null)
-                {
-                    MessageBox.Show("Primer has de connectar un DAOService.");
-                    return;
-                }
                 int index = int.Parse(txtIndex5.Text);
                 int length = int.Parse(txtLength5.Text);
+
                 string output = OutputBaseName(txtOutput5.Text);
 
                 var titles = dao.ReadTitles(index, length);
+
                 dao.PreMerge(titles, output);
 
-                string outputFile = output + ".csv";
                 txtResult5.Text =
                     $"Fet. Títols processats: {titles.Length}\n" +
-                    $"Sortida: {outputFile}";
+                    $"Sortida: {output}.csv";
             }
             catch (Exception ex)
             {
@@ -254,17 +244,12 @@ namespace DAO_PATTERN
         {
             try
             {
-                if (dao == null)
-                {
-                    MessageBox.Show("Primer has de connectar un DAOService.");
-                    return;
-                }
                 string output = OutputBaseName(txtOutput6.Text);
+
                 int resultat = dao.Merge(
                     txtInput6a.Text,
                     txtInput6b.Text,
-                    output
-                );
+                    output);
 
                 txtResult6.Text =
                     $"Registres processats: {resultat}\n" +

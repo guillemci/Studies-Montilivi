@@ -132,18 +132,20 @@ namespace DAO_PATTERN_CONSOLE_EDITION
 
                 while (!finalLength && linea != null)
                 {
-                    peli = new(linea);
-
-                    if (peli._Index < index + length && peli._Index >= index)
+                    peli = new RawTitle(linea);
+                    if (peli._Index >= index)
                     {
-                        array[indexArray] = peli;
-                        indexArray++;
+                        if (peli._Index < index + length)
+                        {
+                            array[indexArray] = peli;
+                            indexArray++;
+                        }
+                        else
+                        {
+                            finalLength = true;
+                        }
                     }
-
-                    if (peli._Index >= index + length)
-                        finalLength = true;
-                    else
-                        linea = sr1.ReadLine();
+                    linea = sr1.ReadLine();
                 }
             }
 

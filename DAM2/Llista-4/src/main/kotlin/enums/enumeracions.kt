@@ -1,3 +1,4 @@
+
 package org.example.enums
 
 enum class Tipus(val nom : String,val tipus : Char) {

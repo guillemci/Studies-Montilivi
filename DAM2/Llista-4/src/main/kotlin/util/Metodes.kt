@@ -63,21 +63,21 @@ class Metodes {
         //amb la idea d'adalt podre encapsular metodeGeneric usant : Pare
         //potser pasar el nom del document, per saber com tractar cada un...
         fun <T : CartaPokemon> factoryLlegirPokemon(linea: String, nomFitxer : String) : Carta {
-//            val camps = linea.split(";")
-//            val id = camps[0]
-//            val nom = camps[1]
-//            val codiExpansio = camps[2]
-//            val numero = camps[3].toInt()
-//            val idRaresa = camps[4].toInt()
-//            val idIllustra = camps[5].toInt()
-//            val marcaReglament = camps[6]
-//            val etiquetes = separa(camps[7])
-//            val imatgeCarta = camps[8]
-//            val ps = camps[9].toInt()
-//            val tipus = listOf<Tipus>(Tipus.valueOf(camps[10]))  //potser no pot llegir el enum aixi
-//            val numPokedex = camps[11]
-//            val habilitats = camps[12]
-//            val atacs = separa(camps[13])
+            val camps = linea.split(";")
+            val id = camps[0]
+            val nom = camps[1]
+            val codiExpansio = camps[2]
+            val numero = camps[3].toInt()
+            val idRaresa = camps[4].toInt()
+            val idIllustra = camps[5].toInt()
+            val marcaReglament = camps[6]
+            val etiquetes = separa(camps[7])
+            val imatgeCarta = camps[8]
+            val ps = camps[9].toInt()
+            val tipus = Tipus.valueOf(camps[10])//potser no pot llegir el enum aixi
+            val numPokedex = camps[11].toInt()
+            val habilitats = camps[12]
+            val atacs = separa(camps[13])
 
 
         }

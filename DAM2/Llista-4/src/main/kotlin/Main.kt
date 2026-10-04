@@ -4,6 +4,7 @@ import org.example.data_class.Expansio
 import org.example.data_class.Illustrador
 import org.example.data_class.Raresa
 import org.example.util.Metodes
+import org.example.util.Metodes.Companion.desa
 import org.example.util.Metodes.Companion.llegeix
 import java.io.FileDescriptor
 import java.io.FileOutputStream
@@ -23,6 +24,8 @@ fun main() {
     println(coleccio[911].toCsv())
 
     print(coleccio.count())
+
+    desa("DadesGuardades", coleccio)
 
 }
 

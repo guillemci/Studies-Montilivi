@@ -14,6 +14,16 @@ data class Expansio(val codi : String, val nom : String, val serie : String, val
         return codi
     }
 
+    fun toCsv() : String {
+        return "${codi};" +
+                "${nom};" +
+                "${serie};" +
+                "${dataPublicacio};" +
+                "${totalCartes};" +
+                "${logo};" +
+                {simbol}
+    }
+
     companion object : CsvReader<Expansio> {
         override fun formatCsv(csv: String): Expansio {
             val camps = csv.split(";")
@@ -48,6 +58,12 @@ data class Raresa(val id : Int, val nom : String, val ordre : String): TeId<Int>
         return id
     }
 
+    fun toCsv() : String {
+        return "${id};" +
+                "${nom};" +
+                ordre
+    }
+
     companion object : CsvReader<Raresa> {
         override fun formatCsv(csv : String) : Raresa {
             val camps = csv.split(";")
@@ -68,6 +84,11 @@ data class Illustrador(val id : Int, val nom : String): TeId<Int>
 
     override fun RetornaId(): Int {
         return id
+    }
+
+    fun toCsv() : String {
+        return "${id};" +
+                {nom}
     }
 
     companion object : CsvReader<Illustrador> {

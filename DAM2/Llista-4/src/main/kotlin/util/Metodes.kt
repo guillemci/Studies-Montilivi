@@ -1,6 +1,7 @@
 package org.example.util
 
 import org.example.Model.Carta
+import org.example.Model.CartaPokemon
 import org.example.Model.Eina
 import org.example.Model.EnergiaBasica
 import org.example.Model.EnergiaEspecial
@@ -18,6 +19,7 @@ import org.example.enums.Fase
 import org.example.enums.Tipus
 import org.example.interficies.CsvReader
 import org.example.interficies.TeId
+import org.example.`object`.Dades
 import java.io.File
 import kotlin.Int
 import kotlin.String
@@ -83,7 +85,7 @@ class Metodes {
         //permetre la creacio d'un objecte amb certs parametres vuits (basicament tots vuits menys els de la classe pare de tots)
         //amb la idea d'adalt podre encapsular metodeGeneric usant : Pare
         //potser pasar el nom del document, per saber com tractar cada un...
-        fun converteix(linea: String, nomFitxer : String, mapExpansio : MutableMap<String, Expansio>, mapRaresa : MutableMap<Int, Raresa>, mapIllustrador: MutableMap<Int, Illustrador>) : Carta {
+        fun converteix(linea: String, nomFitxer : String) : Carta {
 
             var cartaRetornar : Carta
 
@@ -92,14 +94,14 @@ class Metodes {
             //Carta
             val id = camps[0]
             val nom = camps[1]
-            val expansio = obtenirTipus<String,Expansio>(mapExpansio ,camps[2])
+            val expansio = obtenirTipus<String,Expansio>(Dades.expansions ,camps[2])
             val numero = camps[3] //es int???
-            val raresa = obtenirTipus<Int, Raresa>(mapRaresa ,camps[4].toInt())
+            val raresa = obtenirTipus<Int, Raresa>(Dades.rareses ,camps[4].toInt())
             val illustrador =
                 if (camps[5].isEmpty())
                     null
                 else
-                    obtenirTipus<Int, Illustrador>(mapIllustrador, camps[5].toInt())
+                    obtenirTipus<Int, Illustrador>(Dades.illustradors, camps[5].toInt())
             val marcaReglament = camps[6]
             val etiquetesString = separa(camps[7])
             val etiquetes = mutableListOf<Etiqueta>()
@@ -214,29 +216,21 @@ class Metodes {
 
             val fitxers = File(carpeta).listFiles()
 
-            val diccionariExpansio = mutableMapOf<String, Expansio>()
-            val diccionariRaresa = mutableMapOf<Int, Raresa>()
-            val diccionariIllustrador = mutableMapOf<Int, Illustrador>()
 
             fitxers?.forEach {
                 fitxer ->
 
                 if (fitxer.name == "Expansions.csv") {
-                    Metodes.llegeixTaules<String, Expansio>(fitxer.path, Expansio, diccionariExpansio)
+                    Metodes.llegeixTaules<String, Expansio>(fitxer.path, Expansio, Dades.expansions)
                 }
 
                 if (fitxer.name == "Rareses.csv") {
-                    Metodes.llegeixTaules<Int, Raresa>(fitxer.path, Raresa, diccionariRaresa)
+                    Metodes.llegeixTaules<Int, Raresa>(fitxer.path, Raresa, Dades.rareses)
                 }
 
                 if (fitxer.name == "Illustradors.csv") {
-                    Metodes.llegeixTaules<Int, Illustrador>(fitxer.path, Illustrador, diccionariIllustrador)
+                    Metodes.llegeixTaules<Int, Illustrador>(fitxer.path, Illustrador, Dades.illustradors)
                 }
-            }
-
-            diccionariExpansio.forEach { string, expansio ->
-                println("$string : $expansio")
-                println("maricon")
             }
 
             println("hola")
@@ -253,7 +247,7 @@ class Metodes {
                         var linea = reader.readLine()
 
                         while (linea != null) {
-                            coleccio.add(converteix(linea, fitxer.name, diccionariExpansio, diccionariRaresa, diccionariIllustrador))
+                            coleccio.add(converteix(linea, fitxer.name))
                             linea = reader.readLine()
                         }
                     }
@@ -274,6 +268,64 @@ class Metodes {
             }
 
             return output
+        }
+
+        fun desa(carpeta: String, cartes: List<Carta>) {
+            val fitxerIllustrador = File(carpeta, "Illustradors.csv")
+            fitxerIllustrador.appendText("Id;Nom\n")
+
+            Dades.illustradors.forEach { _, illustrador ->
+                fitxerIllustrador.appendText(illustrador.toCsv() + "\n")
+            }
+
+            val fitxerExpansions = File(carpeta, "Expansions.csv")
+            fitxerExpansions.appendText("Codi;Nom;Serie;DataPublicacio;TotalCartes;Logo;Simbol\n")
+
+            Dades.expansions.forEach { _, expansion ->
+                fitxerExpansions.appendText(expansion.toCsv() + "\n")
+            }
+
+            val fitxerRares = File(carpeta, "Rareses.csv")
+            fitxerRares.appendText("Id;Nom;Ordre\n")
+
+            Dades.rareses.forEach { _, rares ->
+                fitxerRares.appendText(rares.toCsv() + "\n")
+            }
+
+            val fitxerEines = File(carpeta, "Eines.csv")
+            fitxerEines.appendText("Id;Nom;CodiExpansio;Numero;IdRaresa;IdIllustrador;MarcaReglament;Etiquetes;ImatgeCarta;Text\n")
+
+            val fitxerEnergiesBasiques = File(carpeta, "EnergiesBasiques.csv")
+            fitxerEnergiesBasiques.appendText("Id;Nom;CodiExpansio;Numero;IdRaresa;IdIllustrador;MarcaReglament;Etiquetes;ImatgeCarta;TipusEnergia\n")
+
+            val fitxerEnergiesEspecials = File(carpeta, "EnergiesEspecials.csv")
+            fitxerEnergiesEspecials.appendText("Id;Nom;CodiExpansio;Numero;IdRaresa;IdIllustrador;MarcaReglament;Etiquetes;ImatgeCarta;Text\n")
+
+            val fitxerEstadis = File(carpeta, "Estadis.csv")
+            fitxerEstadis.appendText("Id;Nom;CodiExpansio;Numero;IdRaresa;IdIllustrador;MarcaReglament;Etiquetes;ImatgeCarta;Text\n")
+
+            val fitxerObjectes = File(carpeta, "Objectes.csv")
+            fitxerObjectes.appendText("Id;Nom;CodiExpansio;Numero;IdRaresa;IdIllustrador;MarcaReglament;Etiquetes;ImatgeCarta;Text\n")
+
+            val fitxerPokemons = File(carpeta, "Pokemons.csv")
+            fitxerPokemons.appendText("Id;Nom;CodiExpansio;Numero;IdRaresa;IdIllustrador;MarcaReglament;Etiquetes;ImatgeCarta;PS;Tipus;NumsPokedex;Habilitats;Atacs;Debilitats;Resistencies;CostRetirada;Regles;TextAmbientacio;ImatgePokemon;Fase;EvolucionaDe\n")
+
+            val fitxerSuports = File(carpeta, "Suports.csv")
+            fitxerSuports.appendText("Id;Nom;CodiExpansio;Numero;IdRaresa;IdIllustrador;MarcaReglament;Etiquetes;ImatgeCarta;Text\n")
+
+            cartes.forEach {
+                carta ->
+
+                when (carta) {
+                    is Eina -> fitxerEines.appendText(carta.toCsv() + "\n")
+                    is EnergiaBasica -> fitxerEnergiesBasiques.appendText(carta.toCsv() + "\n")
+                    is EnergiaEspecial -> fitxerEnergiesEspecials.appendText(carta.toCsv() + "\n")
+                    is Estadi -> fitxerEstadis.appendText(carta.toCsv() + "\n")
+                    is Objecte -> fitxerObjectes.appendText(carta.toCsv() + "\n")
+                    is CartaPokemon -> fitxerPokemons.appendText(carta.toCsv() + "\n")
+                    is Suport -> fitxerSuports.appendText(carta.toCsv() + "\n")
+                }
+            }
         }
     }
 }

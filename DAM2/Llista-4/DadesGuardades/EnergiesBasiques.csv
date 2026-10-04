@@ -1,0 +1,25 @@
+Id;Nom;CodiExpansio;Numero;IdRaresa;IdIllustrador;MarcaReglament;Etiquetes;ImatgeCarta;TipusEnergia
+sve-1;Basic Grass Energy;sve;1;1;;;;https://images.pokemontcg.io/sve/1_hires.png;GRASS
+sve-2;Basic Fire Energy;sve;2;1;;;;https://images.pokemontcg.io/sve/2_hires.png;FIRE
+sve-3;Basic Water Energy;sve;3;1;;;;https://images.pokemontcg.io/sve/3_hires.png;WATER
+sve-4;Basic Lightning Energy;sve;4;1;;;;https://images.pokemontcg.io/sve/4_hires.png;LIGHTNING
+sve-5;Basic Psychic Energy;sve;5;1;;;;https://images.pokemontcg.io/sve/5_hires.png;PSYCHIC
+sve-6;Basic Fighting Energy;sve;6;1;;;;https://images.pokemontcg.io/sve/6_hires.png;FIGHTING
+sve-7;Basic Darkness Energy;sve;7;1;;;;https://images.pokemontcg.io/sve/7_hires.png;DARKNESS
+sve-8;Basic Metal Energy;sve;8;1;;;;https://images.pokemontcg.io/sve/8_hires.png;METAL
+sve-9;Basic Grass Energy;sve;9;1;;;;https://images.pokemontcg.io/sve/9_hires.png;GRASS
+sve-10;Basic Fire Energy;sve;10;1;;;;https://images.pokemontcg.io/sve/10_hires.png;FIRE
+sve-11;Basic Water Energy;sve;11;1;;;;https://images.pokemontcg.io/sve/11_hires.png;WATER
+sve-12;Basic Lightning Energy;sve;12;1;;;;https://images.pokemontcg.io/sve/12_hires.png;LIGHTNING
+sve-13;Basic Psychic Energy;sve;13;1;;;;https://images.pokemontcg.io/sve/13_hires.png;PSYCHIC
+sve-14;Basic Fighting Energy;sve;14;1;;;;https://images.pokemontcg.io/sve/14_hires.png;FIGHTING
+sve-15;Basic Darkness Energy;sve;15;1;;;;https://images.pokemontcg.io/sve/15_hires.png;DARKNESS
+sve-16;Basic Metal Energy;sve;16;1;;;;https://images.pokemontcg.io/sve/16_hires.png;METAL
+sv1-257;Basic Lightning Energy;sv1;257;8;;;;https://images.pokemontcg.io/sv1/257_hires.png;LIGHTNING
+sv1-258;Basic Fighting Energy;sv1;258;8;;;;https://images.pokemontcg.io/sv1/258_hires.png;FIGHTING
+sv2-278;Basic Grass Energy;sv2;278;8;;;;https://images.pokemontcg.io/sv2/278_hires.png;GRASS
+sv2-279;Basic Water Energy;sv2;279;8;;;;https://images.pokemontcg.io/sv2/279_hires.png;WATER
+sv3-230;Basic Fire Energy;sv3;230;8;;G;;https://images.pokemontcg.io/sv3/230_hires.png;FIRE
+sv3pt5-207;Basic Psychic Energy;sv3pt5;207;8;;;;https://images.pokemontcg.io/sv3pt5/207_hires.png;PSYCHIC
+sv6pt5-98;Basic Darkness Energy;sv6pt5;98;8;;;;https://images.pokemontcg.io/sv6pt5/98_hires.png;DARKNESS
+sv6pt5-99;Basic Metal Energy;sv6pt5;99;8;;;;https://images.pokemontcg.io/sv6pt5/99_hires.png;METAL

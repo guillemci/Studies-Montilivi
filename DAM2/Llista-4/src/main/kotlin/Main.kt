@@ -4,6 +4,7 @@ import org.example.data_class.Expansio
 import org.example.data_class.Illustrador
 import org.example.data_class.Raresa
 import org.example.util.Metodes
+import org.example.util.Metodes.Companion.llegeix
 import java.io.FileDescriptor
 import java.io.FileOutputStream
 import java.io.PrintStream
@@ -13,21 +14,15 @@ import java.io.PrintStream
 
 fun main() {
     consolaUtf8()
-    val diccionariExpansio = mutableMapOf<String, Expansio>()
-    val diccionariRaresa = mutableMapOf<Int, Raresa>()
-    val diccionariIllustrador = mutableMapOf<Int, Illustrador>()
 
-    Metodes.llegirCsvDeTaules<String, Expansio>("src/main/resources/Expansions.csv", Expansio, diccionariExpansio)
-    Metodes.llegirCsvDeTaules<Int, Raresa>("src/main/resources/Rareses.csv", Raresa, diccionariRaresa)
-    Metodes.llegirCsvDeTaules<Int, Illustrador>("src/main/resources/illustradors.csv", Illustrador, diccionariIllustrador)
 
-    diccionariExpansio.forEach { string, expansio ->
-        println(string)
-        println(expansio)
-        println()
-    }
+    val CARPETA_DADES = "Dades"
 
-    System.out.print("holla")
+    val coleccio = llegeix(CARPETA_DADES)
+
+    println(coleccio[911].toCsv())
+
+    print(coleccio.count())
 
 }
 

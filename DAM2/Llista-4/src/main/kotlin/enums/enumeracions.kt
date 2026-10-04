@@ -11,11 +11,12 @@ enum class Tipus(val nom : String,val tipus : Char) {
     DARKNESS("foscor",'D'),
     METAL("metall",'M'),
     DRAGON("drac",'N'),
-    COLORLESS("incolor",'C')
+    COLORLESS("incolor",'C'),
+    RES("res",'-'),
 }
 
 enum class Fase(val text : String) {
-    Basic("fasic"),
+    BASIC("basic"),
     FASE_1("fase 1"),
     FASE_2("fase 2"),
 }
@@ -27,4 +28,6 @@ enum class Etiqueta(val text : String) {
     ANCIENT("ancient"),
     FUTURE("future"),
     ACE_SPECIAL("ace spec"),
+    ACE_SPEC("ace spec"),
+    º("pues ells sabran")
 }

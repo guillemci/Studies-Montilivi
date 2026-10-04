@@ -343,11 +343,13 @@ class Eina (id : String, nom : String, expansio : Expansio, numero : String, rar
     : CartaEntrenador (id, nom, expansio, numero, raresa, illustrador, marcaReglament, etiquetes,
     imatgeCarta, text) {
     override fun toString(): String {
-        return super.toString()
+        return super.toString() +
+                "TEXT : ${Metodes.Escriurellista(text)}\n"
     }
 
     override fun toCsv(): String {
-        return super.toCsv()
+        return super.toCsv() + ";" +
+                Metodes.ajuntar<String>(text)
     }
 
     override val categoria: String

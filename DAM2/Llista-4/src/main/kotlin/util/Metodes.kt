@@ -1,5 +1,6 @@
 package org.example.util
 
+import org.example.Extensio.ConteTipus
 import org.example.Model.Carta
 import org.example.Model.CartaPokemon
 import org.example.Model.Eina
@@ -8,6 +9,7 @@ import org.example.Model.EnergiaEspecial
 import org.example.Model.Estadi
 import org.example.Model.Objecte
 import org.example.Model.PokemonBasic
+import org.example.Model.PokemonEvolucionat
 import org.example.Model.PokemonFase1
 import org.example.Model.PokemonFase2
 import org.example.Model.Suport
@@ -23,6 +25,7 @@ import org.example.`object`.Dades
 import java.io.File
 import kotlin.Int
 import kotlin.String
+import kotlin.collections.forEach
 import kotlin.collections.set
 
 class Metodes {
@@ -110,7 +113,7 @@ class Metodes {
             }
             val imatgeCarta = camps[8]
 
-            val text = if (nomFitxer == "Objecte.csv" || nomFitxer == "Suport.csv" || nomFitxer == "Estadi.csv" || nomFitxer == "Eina.csv" || nomFitxer == "EnergiesEspecials.csv")
+            val text = if (nomFitxer == "Objectes.csv" || nomFitxer == "Suports.csv" || nomFitxer == "Estadis.csv" || nomFitxer == "Eines.csv" || nomFitxer == "EnergiesEspecials.csv")
                  separa(camps[9])
             else
                 emptyList()
@@ -129,7 +132,12 @@ class Metodes {
                     val numPokedex = separa(camps[11])
                     val habilitats = separa(camps[12])
                     val atacs = separa(camps[13])
-                    val debilitats = separa(camps[14])
+                    val debilitatsString = separa(camps[14])
+                    val debilitats = mutableListOf<Tipus>()
+                    debilitatsString.forEach {
+                            element -> debilitats.add(Tipus.valueOf(element))
+                    }
+
                     val resistenciesString = separa(camps[15])
                     val resistencies = mutableListOf<Tipus>()
                     resistenciesString.forEach {
@@ -325,6 +333,597 @@ class Metodes {
                     is CartaPokemon -> fitxerPokemons.appendText(carta.toCsv() + "\n")
                     is Suport -> fitxerSuports.appendText(carta.toCsv() + "\n")
                 }
+            }
+        }
+
+        fun ompleCarta() : Carta {
+            val carta : Carta
+            println("tria el tipus de carta que vols")
+            println("1: Eina")
+            println("2: EnergiaBasica")
+            println("3: EnergiaEspecial")
+            println("4: Estadi")
+            println("5: Objecte")
+            println("6: Pokemon")
+            println("7: Suport")
+
+            var opcio = readln().toInt()
+
+            //id
+            println("Id:")
+            val id = readln()
+
+            //nom
+            println("Nom:")
+            val nom = readln()
+
+            //expansio
+            println("tria l'expansio:")
+            Dades.expansions.forEach { string, expansio ->
+                println("$string : $expansio")
+            }
+            val expansio = Dades.expansions[readln()]!!
+
+            //numero
+            println("numero:")
+            val numero = readln()
+
+            //raresa
+            println("raresa:")
+            Dades.rareses.forEach { int, raresa ->
+                println("$int : $raresa")
+            }
+            val raresa = Dades.rareses[readln().toInt()]!!
+
+            //illustrador
+            println("illustrador deixa vuit si no en te:")
+            Dades.illustradors.forEach { int, illustrador ->
+                println("$int : $illustrador")
+            }
+
+            val lecturaIllustrador = readlnOrNull()?.toInt()
+
+            val illustrador: Illustrador?
+
+            if (lecturaIllustrador != null) {
+                illustrador = Dades.illustradors[lecturaIllustrador]
+            }
+            else {
+                illustrador = null
+            }
+
+            //marca reglament
+            println("marca reglament:")
+            val marcaReglament = readln()
+
+            //etiquetes
+            Etiqueta.values().forEachIndexed { index, etiqueta ->
+                println("${index + 1}: $etiqueta")
+            }
+            println("tria les etiquetes. Escriu 0 per acabar:")
+            val etiquetes = mutableListOf<Etiqueta>()
+
+            var valor = readln().toInt()
+
+            while (valor != 0) {
+                etiquetes.add(Etiqueta.values()[valor - 1])
+                valor = readln().toInt()
+            }
+
+            println("imatge de la carta:")
+            val imatgeCarta = readln()
+
+            when (opcio) {
+                1 -> {
+                    println("text de l'eina:")
+
+                    val text = mutableListOf<String>()
+                    var lectura = readln()
+
+                    while (lectura.isNotEmpty()) {
+                        text.add(lectura)
+                        lectura = readln()
+                    }
+
+                    carta = Eina(id, nom, expansio, numero, raresa, illustrador, marcaReglament, etiquetes, imatgeCarta, text)
+                }
+                2 -> {
+                    println("tria el tipus d'energia:")
+
+                    Tipus.values().forEachIndexed { index, tipus ->
+                        println("${index + 1}: $tipus")
+                    }
+
+                    val tipusEnergia = Tipus.values()[readln().toInt() - 1]
+
+                    carta = EnergiaBasica(id, nom, expansio, numero, raresa, illustrador, marcaReglament, etiquetes, imatgeCarta, tipusEnergia)
+                }
+                3 -> {
+                    println("text de l'energia especial:")
+
+                    val text = mutableListOf<String>()
+                    var lectura = readln()
+
+                    while (lectura.isNotEmpty()) {
+                        text.add(lectura)
+                        lectura = readln()
+                    }
+
+                    carta = EnergiaEspecial(id, nom, expansio, numero, raresa, illustrador, marcaReglament, etiquetes, imatgeCarta, text)
+                }
+                4 -> {
+                    println("text de l'estadi:")
+
+                    val text = mutableListOf<String>()
+                    var lectura = readln()
+
+                    while (lectura.isNotEmpty()) {
+                        text.add(lectura)
+                        lectura = readln()
+                    }
+
+                    carta = Estadi(id, nom, expansio, numero, raresa, illustrador, marcaReglament, etiquetes, imatgeCarta, text)
+                }
+                5 -> {
+                    println("text de l'objecte:")
+
+                    val text = mutableListOf<String>()
+                    var lectura = readln()
+
+                    while (lectura.isNotEmpty()) {
+                        text.add(lectura)
+                        lectura = readln()
+                    }
+
+                    carta = Objecte(id, nom, expansio, numero, raresa, illustrador, marcaReglament, etiquetes, imatgeCarta, text)
+                }
+                6 -> {
+                    // ps
+                    println("punts de salut:")
+                    val ps = readln().toInt()
+
+                    // tipus
+                    println("tria els tipus. Escriu 0 per acabar:")
+
+                    Tipus.values().forEachIndexed { index, tipus ->
+                        println("${index + 1}: $tipus")
+                    }
+
+                    val tipus = mutableListOf<Tipus>()
+
+                    var lecturaTipus = readln().toInt()
+
+                    while (lecturaTipus != 0) {
+                        tipus.add(Tipus.values()[lecturaTipus - 1])
+                        lecturaTipus = readln().toInt()
+                    }
+
+                    // numero pokedex
+                    println("numero de Pokedex:")
+
+                    val numPokedex = mutableListOf<String>()
+                    var lecturaPokedex = readln()
+
+                    while (lecturaPokedex.isNotEmpty()) {
+                        numPokedex.add(lecturaPokedex)
+                        lecturaPokedex = readln()
+                    }
+
+                    // habilitats
+                    println("habilitats:")
+
+                    val habilitats = mutableListOf<String>()
+                    var lecturaHabilitat = readln()
+
+                    while (lecturaHabilitat.isNotEmpty()) {
+                        habilitats.add(lecturaHabilitat)
+                        lecturaHabilitat = readln()
+                    }
+
+                    // atacs
+                    println("atacs:")
+
+                    val atacs = mutableListOf<String>()
+                    var lecturaAtac = readln()
+
+                    while (lecturaAtac.isNotEmpty()) {
+                        atacs.add(lecturaAtac)
+                        lecturaAtac = readln()
+                    }
+
+                    // debilitats
+                    println("tria les debilitats. Escriu 0 per acabar:")
+
+                    Tipus.values().forEachIndexed { index, tipus ->
+                        println("${index + 1}: $tipus")
+                    }
+
+                    val debilitats = mutableListOf<Tipus>()
+
+                    var lecturaDebilitat = readln().toInt()
+
+                    while (lecturaDebilitat != 0) {
+                        debilitats.add(Tipus.values()[lecturaDebilitat - 1])
+                        lecturaDebilitat = readln().toInt()
+                    }
+
+                    // resistencies
+                    println("tria les resistencies. Escriu 0 per acabar:")
+
+                    Tipus.values().forEachIndexed { index, tipus ->
+                        println("${index + 1}: $tipus")
+                    }
+
+                    val resistencies = mutableListOf<Tipus>()
+
+                    var lecturaResistencia = readln().toInt()
+
+                    while (lecturaResistencia != 0) {
+                        resistencies.add(Tipus.values()[lecturaResistencia - 1])
+                        lecturaResistencia = readln().toInt()
+                    }
+
+                    // cost retirada
+                    println("cost de retirada:")
+                    val costRetirada = readln().toInt()
+
+                    // regles
+                    println("regles:")
+
+                    val regles = mutableListOf<String>()
+                    var lecturaRegla = readln()
+
+                    while (lecturaRegla.isNotEmpty()) {
+                        regles.add(lecturaRegla)
+                        lecturaRegla = readln()
+                    }
+
+                    // text ambientacio
+                    println("text d'ambientacio:")
+                    val textAmbientacio = readln()
+
+                    // imatge
+                    println("imatge:")
+                    val imatge = readln()
+
+                    carta = PokemonBasic(id, nom, expansio, numero, raresa, illustrador, marcaReglament, etiquetes, imatgeCarta, ps, tipus, numPokedex, habilitats, atacs, debilitats, resistencies, costRetirada, regles, textAmbientacio, imatge)
+                }
+                7 -> {
+                    println("text del suport:")
+
+                    val text = mutableListOf<String>()
+                    var lectura = readln()
+
+                    while (lectura.isNotEmpty()) {
+                        text.add(lectura)
+                        lectura = readln()
+                    }
+
+                    carta = Suport(id, nom, expansio, numero, raresa, illustrador, marcaReglament, etiquetes, imatgeCarta, text)
+                }
+                else -> {
+                    throw Exception("opcio ilegal")
+                }
+            }
+            return carta
+        }
+
+
+        fun altaCarta(carta: Carta): Boolean {
+
+            var trovat = false
+            var i = 0
+
+            while (i < Dades.colleccioCartes.size && !trovat) {
+                if (Dades.colleccioCartes[i].id == carta.id) {
+                    trovat = true
+                    Dades.colleccioCartes[i] = carta
+                }
+                else {
+                    i++
+                }
+            }
+
+            if (!trovat) {
+                Dades.colleccioCartes.add(carta)
+            }
+
+            return !trovat
+        }
+
+        fun eliminaCarta(id: String): Boolean {
+            var trovat = false
+            var i = 0
+
+            while (i < Dades.colleccioCartes.size && !trovat) {
+                if (Dades.colleccioCartes[i].id == id) {
+                    Dades.colleccioCartes.removeAt(i)
+                    trovat = true
+                }
+                else {
+                    i++
+                }
+            }
+
+            return !trovat
+        }
+
+        fun eliminaPosicio(posicio: Int): Boolean {
+            return if (posicio < 0 || posicio > Dades.colleccioCartes.size - 1) {
+                false
+            }
+            else {
+                Dades.colleccioCartes.removeAt(posicio)
+                true
+            }
+        }
+
+        //tambe es podria fer amb un Set
+        fun llistaTipus(): List<Tipus> {
+            val tipus = mutableListOf<Tipus>()
+            var  i = 0;
+
+            Dades.colleccioCartes.forEach { carta ->
+                if (carta is CartaPokemon) {
+                    while (i < carta.tipus.size) {
+                        if (!tipus.ConteTipus(carta.tipus[i])) {
+                            tipus.add(carta.tipus[i])
+                        }
+
+                        i++
+                    }
+
+                    i = 0
+                }
+            }
+
+            return tipus.sortedBy { it.ordinal }
+        }
+
+        fun llistaDeTipus(tipus: Tipus) : List<CartaPokemon> {
+            val llistaPokemons = mutableListOf<CartaPokemon>()
+            var i = 0
+
+            Dades.colleccioCartes.forEach {
+                    carta ->
+                if (carta is CartaPokemon) {
+                    if (carta.tipus.ConteTipus(tipus))
+                        llistaPokemons.add(carta)
+                }
+            }
+
+            return llistaPokemons
+        }
+
+        fun llistaExpansions(): Map<Expansio, Int> {
+            val map = mutableMapOf<Expansio, Int>()
+
+            Dades.expansions.values
+                .sortedBy { it.dataPublicacio }
+                .forEach { expansio ->
+                    map[expansio] = 0
+                }
+
+            Dades.colleccioCartes.forEach { carta ->
+                map[carta.expansio] = (map[carta.expansio] ?: 0) + 1
+            }
+
+            return map
+        }
+
+        fun llistaExpansio(codi: String): List<Carta> {
+            //val expansio = Dades.expansions[codi] ?:
+
+            if (!Dades.expansions.keys.contains(codi)) {
+                throw Exception("expansio $codi not found")
+            }
+
+            var llistaExpansio = mutableListOf<Carta>()
+
+            Dades.colleccioCartes.forEach { carta ->
+                if (carta.expansio.codi == codi) {
+                    llistaExpansio.add(carta)
+                }
+            }
+
+            return llistaExpansio
+        }
+
+        fun llistaRareses(): Map<Raresa, Int> {
+            val map = mutableMapOf<Raresa, Int>()
+
+            Dades.rareses.values
+                .sortedBy { it.ordre }
+                .forEach { raresa ->
+                    map[raresa] = 0
+                }
+
+            Dades.colleccioCartes.forEach { carta ->
+                map[carta.raresa] = (map[carta.raresa] ?: 0) + 1
+            }
+
+            return map
+        }
+
+        fun llistaCarta(id: String): Carta? {
+
+            var i = 0
+            var trovat = false
+            var carta: Carta? = null
+
+            while(!trovat && i < Dades.colleccioCartes.size) {
+                if (Dades.colleccioCartes[i].id == id) {
+                    trovat = true
+                    carta = Dades.colleccioCartes[i]
+                }
+                else
+                    i++
+            }
+
+            return carta
+
+        }
+
+        fun llistaPos(posicio: Int): Carta? {
+            return if (posicio < Dades.colleccioCartes.size && posicio > Dades.colleccioCartes.size - 1) {
+                null
+            }
+            else {
+                Dades.colleccioCartes[posicio]
+            }
+        }
+
+        fun llistaRang(desde: Int, fins: Int): List<Carta> {
+
+            if (desde < 0)
+                throw Exception("no pot ser mes petit que 0")
+
+            var llista = mutableListOf<Carta>()
+            var i = 0
+            var final = false
+
+            while (i < Dades.colleccioCartes.size && !final) {
+
+                if (i >= desde && i < desde + fins) {
+                    llista.add(Dades.colleccioCartes[i])
+                }
+
+                if (i > desde + fins) {
+                    final = true
+                }
+
+                i++
+            }
+
+            return llista
+        }
+
+        fun llistaCategories(): Map<String, Int> {
+            var map = mutableMapOf<String, Int>()
+
+            Dades.colleccioCartes.forEach { carta ->
+                map[carta.categoria] = (map[carta.categoria] ?: 0) + 1
+            }
+
+            return map
+        }
+
+        fun cadenaEvolutiva(nom: String): List<String> {
+            val cadena = mutableListOf<String>()
+
+            var totalTrovats = 0
+            var i = 0
+            var trovat = false
+            var pokemonEndarrera: CartaPokemon? = null
+            var pokemonEndavant: CartaPokemon? = null
+
+            Dades.colleccioCartes.forEach { carta ->
+                if (carta is CartaPokemon && carta.nom == nom) {
+                    pokemonEndarrera = carta
+                    pokemonEndavant = carta
+                }
+            }
+
+            if (pokemonEndarrera == null) {
+                throw Exception("cadenaEvolutiva $nom not exist")
+            }
+
+            cadena.add(nom)
+            totalTrovats++
+
+            // Buscar endarrera
+            while (!trovat && i < Dades.colleccioCartes.size && pokemonEndarrera is PokemonFase2) {
+                val carta = Dades.colleccioCartes[i]
+
+                if (carta is CartaPokemon &&
+                    carta.nom == pokemonEndarrera.evolucioDe
+                ) {
+                    cadena.add(carta.nom)
+                    trovat = true
+                    pokemonEndarrera = carta
+                    totalTrovats++
+                }
+
+                i++
+            }
+
+            trovat = false
+            i = 0
+
+            // Buscar endarrera
+            while (!trovat && i < Dades.colleccioCartes.size && pokemonEndarrera is PokemonFase1) {
+                val carta = Dades.colleccioCartes[i]
+
+                if (carta is CartaPokemon &&
+                    carta.nom == pokemonEndarrera.evolucioDe
+                ) {
+                    cadena.add(carta.nom)
+                    trovat = true
+                    totalTrovats++
+                }
+
+                i++
+            }
+
+            trovat = false
+            i = 0
+
+            // Buscar endavant
+            while (!trovat && i < Dades.colleccioCartes.size && pokemonEndavant is PokemonBasic && totalTrovats < 3) {
+                val carta = Dades.colleccioCartes[i]
+
+                if (carta is PokemonEvolucionat &&
+                    carta.evolucioDe == pokemonEndavant.nom
+                ) {
+                    cadena.add(carta.nom)
+                    trovat = true
+                    totalTrovats++
+                    pokemonEndavant = carta
+                }
+
+                i++
+            }
+
+            trovat = false
+            i = 0
+
+            // Buscar endavant
+            while (!trovat &&  i < Dades.colleccioCartes.size && pokemonEndavant is PokemonFase1 && totalTrovats < 3) {
+                val carta = Dades.colleccioCartes[i]
+
+                if (carta is PokemonEvolucionat &&
+                    carta.evolucioDe == pokemonEndavant.nom
+                ) {
+                    cadena.add(carta.nom)
+                    trovat = true
+                    totalTrovats++
+                    pokemonEndavant = carta
+                }
+
+                i++
+            }
+
+            return cadena
+        }
+
+        fun genericEndavant(carta: CartaPokemon) : CartaPokemon {
+            var trovat = false
+            var i = 0
+
+            var Pokemon : CartaPokemon = carta
+
+            while (!trovat &&  i < Dades.colleccioCartes.size && carta is PokemonFase1) {
+                val carta = Dades.colleccioCartes[i]
+
+                if (carta is PokemonEvolucionat &&
+                    carta.evolucioDe == carta.nom
+                ) {
+                    trovat = true
+                    totalTrovats++
+                    pokemonEndavant = carta
+                }
+
+                i++
             }
         }
     }

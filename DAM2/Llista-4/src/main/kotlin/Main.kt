@@ -1,8 +1,10 @@
 package org.example
 
+import org.example.Model.Eina
 import org.example.data_class.Expansio
 import org.example.data_class.Illustrador
 import org.example.data_class.Raresa
+import org.example.`object`.Dades
 import org.example.util.Metodes
 import org.example.util.Metodes.Companion.desa
 import org.example.util.Metodes.Companion.llegeix
@@ -19,13 +21,22 @@ fun main() {
 
     val CARPETA_DADES = "Dades"
 
-    val coleccio = llegeix(CARPETA_DADES)
 
-    println(coleccio[911].toCsv())
+//    println(colleccioCartes[911].toCsv())
+//
+//    print(colleccioCartes.count())
+//
+//    colleccioCartes.forEach { carta ->
+//        if (carta is Eina)
+//            println(carta)
+//    }
 
-    print(coleccio.count())
 
-    desa("DadesGuardades", coleccio)
+    Metodes.cadenaEvolutiva("Ivysaur").forEach {
+        elemnt -> println(elemnt)
+    }
+
+    //desa("DadesGuardades", colleccioCartes)
 
 }
 

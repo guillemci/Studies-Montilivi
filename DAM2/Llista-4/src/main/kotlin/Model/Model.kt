@@ -70,7 +70,7 @@ abstract class CartaPokemon
      val Pokedex : List<String>,
      val habilitats : List<String>,
      val atacs : List<String>,
-     val debilitats : List<String>,
+     val debilitats : List<Tipus>,
      val resistencies : List<Tipus>,
      val costRetirada : Int,
      val regles : List<String>,
@@ -89,7 +89,7 @@ abstract class CartaPokemon
                 "${Metodes.ajuntar<String>(Pokedex)};" +
                 "${Metodes.ajuntar<String>(habilitats)};" +
                 "${Metodes.ajuntar<String>(atacs)};" +
-                "${Metodes.ajuntar<String>(debilitats)};" +
+                "${Metodes.ajuntar<Tipus>(debilitats)};" +
                 "${Metodes.ajuntar<Tipus>(resistencies)};" +
                 "${costRetirada};" +
                 "${Metodes.ajuntar<String>(regles)};" +
@@ -105,7 +105,7 @@ abstract class CartaPokemon
                 "POKEDEX : ${Metodes.Escriurellista<String>(Pokedex)}\n" +
                 "HABILITATS : ${Metodes.Escriurellista<String>(habilitats)}\n" +
                 "ATACS : ${Metodes.Escriurellista<String>(atacs)}\n" +
-                "DEBILITATS : ${Metodes.Escriurellista<String>(debilitats)}\n" +
+                "DEBILITATS : ${Metodes.Escriurellista<Tipus>(debilitats)}\n" +
                 "RESISTENCIES : ${Metodes.Escriurellista<Tipus>(resistencies)}\n" +
                 "COST RETIRADA : $costRetirada\n" +
                 "REGLES : ${Metodes.Escriurellista<String>(regles)}\n" +
@@ -130,7 +130,7 @@ class PokemonBasic(id : String,
                    Pokedex : List<String>,
                    habilitats : List<String>,
                    atacs : List<String>,
-                   debilitats : List<String>,
+                   debilitats : List<Tipus>,
                    resistencies : List<Tipus>,
                    costRetirada : Int,
                    regles : List<String>,
@@ -161,7 +161,7 @@ abstract class PokemonEvolucionat(id : String,
                    Pokedex : List<String>,
                    habilitats : List<String>,
                    atacs : List<String>,
-                   debilitats : List<String>,
+                   debilitats : List<Tipus>,
                    resistencies : List<Tipus>,
                    costRetirada : Int,
                    regles : List<String>,
@@ -197,7 +197,7 @@ class PokemonFase1(id : String,
                    Pokedex : List<String>,
                    habilitats : List<String>,
                    atacs : List<String>,
-                   debilitats : List<String>,
+                   debilitats : List<Tipus>,
                    resistencies : List<Tipus>,
                    costRetirada : Int,
                    regles : List<String>,
@@ -237,7 +237,7 @@ class PokemonFase2(id : String,
                    Pokedex : List<String>,
                    habilitats : List<String>,
                    atacs : List<String>,
-                   debilitats : List<String>,
+                   debilitats : List<Tipus>,
                    resistencies : List<Tipus>,
                    costRetirada : Int,
                    regles : List<String>,
@@ -343,13 +343,11 @@ class Eina (id : String, nom : String, expansio : Expansio, numero : String, rar
     : CartaEntrenador (id, nom, expansio, numero, raresa, illustrador, marcaReglament, etiquetes,
     imatgeCarta, text) {
     override fun toString(): String {
-        return super.toString() +
-                "TEXT : ${Metodes.Escriurellista(text)}\n"
+        return super.toString()
     }
 
     override fun toCsv(): String {
-        return super.toCsv() + ";" +
-                Metodes.ajuntar<String>(text)
+        return super.toCsv()
     }
 
     override val categoria: String

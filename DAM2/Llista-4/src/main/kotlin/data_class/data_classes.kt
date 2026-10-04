@@ -21,7 +21,7 @@ data class Expansio(val codi : String, val nom : String, val serie : String, val
                 "${dataPublicacio};" +
                 "${totalCartes};" +
                 "${logo};" +
-                {simbol}
+                simbol
     }
 
     companion object : CsvReader<Expansio> {
@@ -88,7 +88,7 @@ data class Illustrador(val id : Int, val nom : String): TeId<Int>
 
     fun toCsv() : String {
         return "${id};" +
-                {nom}
+                nom
     }
 
     companion object : CsvReader<Illustrador> {

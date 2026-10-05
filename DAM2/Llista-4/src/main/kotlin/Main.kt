@@ -32,7 +32,7 @@ fun main() {
 //    }
 
 
-    Metodes.cadenaEvolutiva("Ivysaur").forEach {
+    Metodes.cadenaEvolutiva("Pikachu").forEach {
         elemnt -> println(elemnt)
     }
 

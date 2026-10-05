@@ -812,8 +812,6 @@ class Metodes {
             val cadena = mutableListOf<String>()
 
             var totalTrovats = 0
-            var i = 0
-            var trovat = false
             var pokemonEndarrera: CartaPokemon? = null
             var pokemonEndavant: CartaPokemon? = null
 
@@ -832,99 +830,87 @@ class Metodes {
             totalTrovats++
 
             // Buscar endarrera
-            while (!trovat && i < Dades.colleccioCartes.size && pokemonEndarrera is PokemonFase2) {
-                val carta = Dades.colleccioCartes[i]
-
-                if (carta is CartaPokemon &&
-                    carta.nom == pokemonEndarrera.evolucioDe
-                ) {
-                    cadena.add(carta.nom)
-                    trovat = true
-                    pokemonEndarrera = carta
-                    totalTrovats++
-                }
-
-                i++
+            if (pokemonEndarrera is PokemonFase2) {
+                pokemonEndarrera = Endarrera(pokemonEndarrera)
+                if (pokemonEndarrera != null)
+                    cadena.add(pokemonEndarrera.nom)
+                totalTrovats++
             }
-
-            trovat = false
-            i = 0
 
             // Buscar endarrera
-            while (!trovat && i < Dades.colleccioCartes.size && pokemonEndarrera is PokemonFase1) {
-                val carta = Dades.colleccioCartes[i]
-
-                if (carta is CartaPokemon &&
-                    carta.nom == pokemonEndarrera.evolucioDe
-                ) {
-                    cadena.add(carta.nom)
-                    trovat = true
-                    totalTrovats++
-                }
-
-                i++
+            if (pokemonEndarrera is PokemonFase1) {
+                pokemonEndarrera = Endarrera(pokemonEndarrera)
+                if (pokemonEndarrera != null)
+                    cadena.add(pokemonEndarrera.nom)
+                totalTrovats++
             }
 
-            trovat = false
-            i = 0
-
             // Buscar endavant
-            while (!trovat && i < Dades.colleccioCartes.size && pokemonEndavant is PokemonBasic && totalTrovats < 3) {
-                val carta = Dades.colleccioCartes[i]
-
-                if (carta is PokemonEvolucionat &&
-                    carta.evolucioDe == pokemonEndavant.nom
-                ) {
-                    cadena.add(carta.nom)
-                    trovat = true
-                    totalTrovats++
-                    pokemonEndavant = carta
-                }
-
-                i++
+            if (pokemonEndavant is PokemonBasic && totalTrovats < 3) {
+                pokemonEndavant = Endavant(pokemonEndavant)
+                if (pokemonEndavant != null)
+                    cadena.add(pokemonEndavant.nom)
+                totalTrovats++
             }
 
-            trovat = false
-            i = 0
-
             // Buscar endavant
-            while (!trovat &&  i < Dades.colleccioCartes.size && pokemonEndavant is PokemonFase1 && totalTrovats < 3) {
-                val carta = Dades.colleccioCartes[i]
-
-                if (carta is PokemonEvolucionat &&
-                    carta.evolucioDe == pokemonEndavant.nom
-                ) {
-                    cadena.add(carta.nom)
-                    trovat = true
-                    totalTrovats++
-                    pokemonEndavant = carta
-                }
-
-                i++
+            if (pokemonEndavant is PokemonFase1 && totalTrovats < 3) {
+                pokemonEndavant = Endavant(pokemonEndavant)
+                if (pokemonEndavant != null)
+                    cadena.add(pokemonEndavant.nom)
             }
 
             return cadena
         }
 
-        fun genericEndavant(carta: CartaPokemon) : CartaPokemon {
+        fun Endarrera(cartaInicial: PokemonEvolucionat): CartaPokemon? {
             var trovat = false
             var i = 0
+            var pokemon: CartaPokemon? = null
 
-            var Pokemon : CartaPokemon = carta
-
-            while (!trovat &&  i < Dades.colleccioCartes.size && carta is PokemonFase1) {
+            while (!trovat && i < Dades.colleccioCartes.size) {
                 val carta = Dades.colleccioCartes[i]
 
-                if (carta is PokemonEvolucionat &&
-                    carta.evolucioDe == carta.nom
-                ) {
+                if (carta is CartaPokemon && carta.nom == cartaInicial.evolucioDe) {
                     trovat = true
-                    totalTrovats++
-                    pokemonEndavant = carta
+                    pokemon = carta
                 }
 
                 i++
             }
+
+            return pokemon
+        }
+
+        fun Endavant(cartaInicial: CartaPokemon): CartaPokemon? {
+            var trovat = false
+            var i = 0
+            var pokemon: CartaPokemon? = null
+
+            while (!trovat && i < Dades.colleccioCartes.size) {
+                val carta = Dades.colleccioCartes[i]
+
+                if (carta is PokemonEvolucionat && carta.evolucioDe == cartaInicial.nom) {
+                    trovat = true
+                    pokemon = carta
+                }
+
+                i++
+            }
+
+            return pokemon
+        }
+
+        fun PokemonMesFort() : CartaPokemon? {
+            var cartaRetornar : CartaPokemon? = null
+
+            Dades.colleccioCartes.forEach { carta ->
+                if (carta is PokemonEvolucionat && (cartaRetornar?.ps ?: Int.MIN_VALUE) < carta.ps) {
+                    cartaRetornar = carta
+                }
+            }
+
+            return cartaRetornar
         }
     }
 }

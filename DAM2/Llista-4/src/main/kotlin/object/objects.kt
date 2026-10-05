@@ -10,5 +10,4 @@ object Dades {
     val expansions = mutableMapOf<String, Expansio>()
     val rareses = mutableMapOf<Int, Raresa>()
     val illustradors = mutableMapOf<Int, Illustrador>()
-    val colleccioCartes = llegeix("Dades")
 }
